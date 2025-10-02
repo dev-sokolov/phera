@@ -8,3 +8,15 @@
     margin-top: 50px;
     color: blue;
 }
+
+.wrapBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
