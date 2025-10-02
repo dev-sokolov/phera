@@ -4,7 +4,10 @@ function App() {
 
   return (
     <>
-      <p className={styles.greeting}>Hello App!!!</p>
+      <div className={styles.wrapGreeting}>
+        <p className={styles.greeting}>Hello App!!!</p>
+      </div>
+
 
 
     </>

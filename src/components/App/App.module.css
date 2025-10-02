@@ -1,3 +1,8 @@
+.wrapGreeting {
+    display: flex;
+    justify-content: center;
+}
+
 .greeting {
     font-size: 30px;
     margin-left: 100px;
