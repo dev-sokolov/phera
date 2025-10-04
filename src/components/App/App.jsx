@@ -158,14 +158,14 @@ function App() {
         // const x = (img.width - cropWidth) / 2; // центр по X
         // const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
 
-        const cropWidth = img.width * 0.25; // ширина обрезки (примерно 80% кадра)
-        const cropHeight = img.height * 0.8; // высота обрезки (примерно 25% кадра)
-        const x = (img.width - cropWidth); // центр по X
+        const cropWidth = img.width * 0.8; // ширина обрезки (примерно 80% кадра)
+        const cropHeight = img.height * 0.25; // высота обрезки (примерно 25% кадра)
+        const x = (img.width - cropWidth) / 2; // центр по X
         const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
 
-        canvas.width = cropWidth;
-        canvas.height = cropHeight;
-        ctx.drawImage(img, x, y, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+        canvas.width = 320;
+        canvas.height = 480;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         const cropped = canvas.toDataURL("image/png");
         setCapturedImage(cropped);
