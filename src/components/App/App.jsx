@@ -160,7 +160,7 @@ function App() {
 
         const cropWidth = img.width * 0.25; // ширина обрезки (примерно 80% кадра)
         const cropHeight = img.height * 0.8; // высота обрезки (примерно 25% кадра)
-        const x = (img.width - cropWidth) / 2; // центр по X
+        const x = (img.width - cropWidth); // центр по X
         const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
 
         canvas.width = cropWidth;
