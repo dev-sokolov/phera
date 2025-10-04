@@ -9,6 +9,13 @@ function App() {
 
   const webcamRef = useRef(null);
   // const WebcamComponent = () => <Webcam />;
+
+
+  // Настройки камеры: задняя камера на смартфонах
+  const videoConstraints = {
+    facingMode: { exact: "environment" }, // или просто "environment"
+  };
+
   const handleStartCamera = () => {
     setIsCameraOn(true);
     setCapturedImage(null); // сброс предыдущего фото
@@ -62,7 +69,12 @@ function App() {
 
       {isCameraOn && (
         <div className={styles.webcamWrap}>
-          <Webcam ref={webcamRef} audio={false} screenshotFormat="image/png" />
+          <Webcam
+            ref={webcamRef}
+            audio={false}
+            screenshotFormat="image/png"
+            videoConstraints={videoConstraints}
+          />
         </div>
       )}
       {/* {showWebcam && (
