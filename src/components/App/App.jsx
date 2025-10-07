@@ -141,38 +141,89 @@ function App() {
   };
 
   // Снимок с кадрированием
+  // const handleCapture = () => {
+  //   if (webcamRef.current) {
+  //     const imageSrc = webcamRef.current.getScreenshot();
+
+  //     // создаём временное изображение
+  //     const img = new Image();
+  //     img.src = imageSrc;
+  //     img.onload = () => {
+  //       // создаём canvas для обрезки
+  //       const canvas = document.createElement("canvas");
+  //       const ctx = canvas.getContext("2d");
+
+  //       // const cropWidth = img.width * 0.8; // ширина обрезки (примерно 80% кадра)
+  //       // const cropHeight = img.height * 0.25; // высота обрезки (примерно 25% кадра)
+  //       // const x = (img.width - cropWidth) / 2; // центр по X
+  //       // const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
+
+  //       const cropWidth = img.width * 0.8; // ширина обрезки (примерно 80% кадра)
+  //       const cropHeight = img.height * 0.25; // высота обрезки (примерно 25% кадра)
+  //       const x = (img.width - cropWidth) / 2; // центр по X
+  //       const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
+
+  //       canvas.width = 320;
+  //       canvas.height = 480;
+  //       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  //       const cropped = canvas.toDataURL("image/png");
+  //       setCapturedImage(cropped);
+  //     };
+  //     handleStopCamera();
+  //   }
+  // };
+
   const handleCapture = () => {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot();
+  if (webcamRef.current) {
+    const imageSrc = webcamRef.current.getScreenshot();
+    const img = new Image();
+    img.src = imageSrc;
 
-      // создаём временное изображение
-      const img = new Image();
-      img.src = imageSrc;
-      img.onload = () => {
-        // создаём canvas для обрезки
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
-        // const cropWidth = img.width * 0.8; // ширина обрезки (примерно 80% кадра)
-        // const cropHeight = img.height * 0.25; // высота обрезки (примерно 25% кадра)
-        // const x = (img.width - cropWidth) / 2; // центр по X
-        // const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
+      // Размер исходного изображения (в пикселях)
+      const imgWidth = img.width;
+      const imgHeight = img.height;
 
-        const cropWidth = img.width * 0.8; // ширина обрезки (примерно 80% кадра)
-        const cropHeight = img.height * 0.25; // высота обрезки (примерно 25% кадра)
-        const x = (img.width - cropWidth) / 2; // центр по X
-        const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
+      // Пропорции рамки из CSS:
+      const topOffset = 0.20;    // top: 20%
+      const bottomOffset = 0.20; // bottom: 20%
+      const leftOffset = 0.10;   // left: 10%
+      const rightOffset = 0.10;  // right: 10%
 
-        canvas.width = 220;
-        canvas.height = 280;
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      // Рассчитываем координаты рамки
+      const x = imgWidth * leftOffset;
+      const y = imgHeight * topOffset;
+      const cropWidth = imgWidth * (1 - leftOffset - rightOffset);
+      const cropHeight = imgHeight * (1 - topOffset - bottomOffset);
 
-        const cropped = canvas.toDataURL("image/png");
-        setCapturedImage(cropped);
-      };
+      // Размер итогового кадра (фиксированный для анализа)
+      canvas.width = 320;
+      canvas.height = 480;
+
+      // Вырезаем нужную область
+      ctx.drawImage(
+        img,
+        x,
+        y,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      const cropped = canvas.toDataURL("image/png");
+      setCapturedImage(cropped);
+
       handleStopCamera();
-    }
-  };
+    };
+  }
+};
 
   return (
     <div className={styles.container}>
