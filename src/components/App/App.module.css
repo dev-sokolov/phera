@@ -1,24 +1,33 @@
 .wrapGreeting {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .greeting {
-    font-size: 30px;
-    margin-top: 50px;
-    color: blue;
+  font-size: 30px;
+  margin-top: 50px;
+  color: blue;
 }
 
 .wrapBtn {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .btn {
-    padding: 10px 20px;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  margin: 10px;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
 }
 
 /* ------------------------------------------------- */

@@ -1,183 +1,79 @@
-// import { useState, useRef } from "react";
-// import Webcam from "react-webcam";
+import { useState, useRef } from "react";
+import Webcam from "react-webcam";
 
-// import styles from "./App.module.css"
-
-// function App() {
-//   const [isCameraOn, setIsCameraOn] = useState(false);
-//   const [capturedImage, setCapturedImage] = useState(null);
-
-//   const webcamRef = useRef(null);
-//   // const WebcamComponent = () => <Webcam />;
-
-
-//   // Настройки камеры: задняя камера на смартфонах
-//   const videoConstraints = {
-//     facingMode: { ideal: "environment" }, // или просто "environment"
-//   };
-
-//   const handleStartCamera = () => {
-//     setIsCameraOn(true);
-//     setCapturedImage(null); // сброс предыдущего фото
-//   }
-
-//   const handleStopCamera = () => {
-//     if (webcamRef.current) {
-//       const tracks = webcamRef.current.video.srcObject?.getTracks();
-//       tracks?.forEach((track) => track.stop());
-//     }
-//     setIsCameraOn(false);
-//   };
-
-//   const handleCapture = () => {
-//     if (webcamRef.current) {
-//       const imageSrc = webcamRef.current.getScreenshot();
-//       setCapturedImage(imageSrc);
-//       handleStopCamera(); // остановка камеры после снимка (по желанию)
-//     }
-//   };
-
-//   return (
-//     <>
-//       <div className={styles.wrapGreeting}>
-//         <p className={styles.greeting}>Hello App!!!</p>
-//       </div>
-
-//       <div className={styles.wrapBtn}>
-//         {!isCameraOn && !capturedImage && (
-//           // {!isCameraOn && (
-//           <button onClick={handleStartCamera} className={styles.btn}>
-//             Start Camera
-//           </button>
-//         )}
-//         {isCameraOn && (
-//           <>
-//             <button onClick={handleCapture} className={styles.btn}>
-//               Scan pH strip
-//             </button>
-//             <button onClick={handleStopCamera} className={styles.btn}>
-//               Stop Camera
-//             </button>
-//           </>
-//         )}
-//       </div>
-
-//       {isCameraOn && (
-//         <div className={styles.webcamWrap}>
-//           <Webcam
-//             ref={webcamRef}
-//             audio={false}
-//             screenshotFormat="image/png"
-//             videoConstraints={videoConstraints}
-//           />
-//         </div>
-//       )}
-//       {/* ----------------------- */}
-
-//       {capturedImage && (
-//         <>
-//           <div className={styles.capturedWrap}>
-//             <p>Captured Image:</p>
-//             <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
-//             <button onClick={handleStartCamera} className={styles.btn}>
-//               Retake
-//             </button>
-//             <button onClick={handleStopCamera} className={styles.btn}>
-//               Reset
-//             </button>
-//           </div>
-//         </>
-
-//       )}
-
-//     </>
-//   )
-// }
-
-// export default App
-
-// MediaDevices API -----------------------------------
-
-import { useRef, useState, useEffect } from "react";
-import styles from "./App.module.css";
+import styles from "./App.module.css"
 
 function App() {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [error, setError] = useState(null);
 
-  const videoRef = useRef(null);
-  const streamRef = useRef(null);
+  const webcamRef = useRef(null);
+  // const WebcamComponent = () => <Webcam />;
 
-  // Настройки для задней камеры
-  const constraints = {
-    video: {
-      facingMode: { ideal: "environment" },
-      width: { ideal: 1280 },
-      height: { ideal: 720 },
-    },
-    audio: false,
+
+  // Настройки камеры: задняя камера на смартфонах
+  // const videoConstraints = {
+  //   facingMode: { ideal: "environment" }, // или просто "environment"
+  // };
+
+  const videoConstraints = {
+    width: { ideal: 1280 },
+    height: { ideal: 720 },
+    facingMode: { ideal: "environment" },
   };
 
-  // 🚀 Запуск камеры
+  // const handleStartCamera = () => {
+  //   setIsCameraOn(true);
+  //   setCapturedImage(null); // сброс предыдущего фото
+  // }
+
   const handleStartCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      streamRef.current = stream;
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-      }
-
       setIsCameraOn(true);
       setCapturedImage(null);
-      setError(null);
     } catch (err) {
-      console.error("Ошибка доступа к камере:", err);
-      setError("Не удалось получить доступ к камере. Разрешите использование камеры в браузере.");
+      console.error("Error starting camera:", err);
     }
   };
 
-  // 🧹 Остановка камеры
   const handleStopCamera = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
+    if (webcamRef.current) {
+      const tracks = webcamRef.current.video.srcObject?.getTracks();
+      tracks?.forEach((track) => track.stop());
     }
     setIsCameraOn(false);
   };
 
-  // 📸 Снимок
   const handleCapture = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    const imageData = canvas.toDataURL("image/png");
-    setCapturedImage(imageData);
-    handleStopCamera();
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      setCapturedImage(imageSrc);
+      handleStopCamera(); // остановка камеры после снимка (по желанию)
+    }
   };
 
-  // Очистка камеры при размонтировании
-  useEffect(() => {
-    return () => handleStopCamera();
-  }, []);
+  // const handleReset = () => {
+  //   setCapturedImage(null); // сброс предыдущего фото
+  // }
+
+  const handleReset = () => {
+    if (webcamRef.current) {
+      const tracks = webcamRef.current.video.srcObject?.getTracks();
+      tracks?.forEach((track) => track.stop());
+    }
+    setCapturedImage(null);
+    setIsCameraOn(false);
+  };
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.wrapGreeting}>
-        <p className={styles.greeting}>Hello App!!!</p>
+        <p className={styles.greeting}>Welcome page</p>
       </div>
 
       <div className={styles.wrapBtn}>
         {!isCameraOn && !capturedImage && (
+          // {!isCameraOn && (
           <button onClick={handleStartCamera} className={styles.btn}>
             Start Camera
           </button>
@@ -194,39 +90,39 @@ function App() {
         )}
       </div>
 
-      {/* Видео-поток */}
       {isCameraOn && (
         <div className={styles.webcamWrap}>
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className={styles.webcam}
+          <Webcam
+            ref={webcamRef}
+            audio={false}
+            screenshotFormat="image/png"
+            videoConstraints={videoConstraints}
           />
         </div>
       )}
+      {/* ----------------------- */}
 
-      {/* Ошибка */}
-      {error && <p className={styles.error}>{error}</p>}
-
-      {/* Отображение фото */}
       {capturedImage && (
-        <div className={styles.capturedWrap}>
-          <p>Captured Image:</p>
-          <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
-          <button onClick={handleStartCamera} className={styles.btn}>
-            Retake
-          </button>
-        </div>
+        <>
+          <div className={styles.capturedWrap}>
+            <p>Captured Image:</p>
+            <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
+            <button onClick={handleStartCamera} className={styles.btn}>
+              Retake
+            </button>
+            <button onClick={handleReset} className={styles.btn}>
+              Reset
+            </button>
+          </div>
+        </>
+
       )}
-    </div>
-  );
+
+    </>
+  )
 }
 
-export default App;
-
-
+export default App
 
 
 // -----------------------------------------------------
