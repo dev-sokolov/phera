@@ -189,8 +189,8 @@ function App() {
       const imgHeight = img.height;
 
       // Пропорции рамки из CSS:
-      const topOffset = 0.10;    // top: 20%
-      const bottomOffset = 0.10; // bottom: 20%
+      const topOffset = 0.20;    // top: 20%
+      const bottomOffset = 0.20; // bottom: 20%
       const leftOffset = 0.10;   // left: 10%
       const rightOffset = 0.10;  // right: 10%
 
