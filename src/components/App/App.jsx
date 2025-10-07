@@ -209,16 +209,16 @@ function App() {
             className={styles.webcam}
           />
           {/* Рамка для ориентира полоски */}
-          {/* <div className={styles.overlay}>
-            <div className={styles.frame}></div>
-          </div> */}
-
           <div className={styles.overlay}>
+            <div className={styles.frame}></div>
+          </div>
+
+          {/* <div className={styles.overlay}>
             <div className={`${styles.corner} ${styles.topLeft}`}></div>
             <div className={`${styles.corner} ${styles.topRight}`}></div>
             <div className={`${styles.corner} ${styles.bottomLeft}`}></div>
             <div className={`${styles.corner} ${styles.bottomRight}`}></div>
-          </div>
+          </div> */}
 
         </div>
       )}
