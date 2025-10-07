@@ -163,8 +163,8 @@ function App() {
         const x = (img.width - cropWidth) / 2; // центр по X
         const y = img.height * 0.55; // нижняя часть кадра (предположим, что полоска держится ниже центра)
 
-        canvas.width = 320;
-        canvas.height = 480;
+        canvas.width = 220;
+        canvas.height = 380;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         const cropped = canvas.toDataURL("image/png");
