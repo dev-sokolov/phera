@@ -201,8 +201,8 @@ function App() {
       const cropHeight = imgHeight * (1 - topOffset - bottomOffset);
 
       // Размер итогового кадра (фиксированный для анализа)
-      canvas.width = 220;
-      canvas.height = 480;
+      canvas.width = 120;
+      canvas.height = 280;
 
       // Вырезаем нужную область
       ctx.drawImage(
