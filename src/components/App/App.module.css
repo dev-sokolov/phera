@@ -21,7 +21,9 @@
     cursor: pointer;
 } */
 
-.container {
+/* ------------------------------------------------- */
+
+/* .container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,4 +102,70 @@
   max-width: 400px;
   border-radius: 10px;
   margin-top: 0.5rem;
+} */
+
+/* --------------------------- */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #000;
+}
+
+.webcamWrap {
+  position: relative;
+}
+
+.webcam {
+  width: 90vw;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Общие стили для углов */
+.corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #00ff66;
+}
+
+/* Верхний левый */
+.topLeft {
+  top: 20%;
+  left: 10%;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Верхний правый */
+.topRight {
+  top: 20%;
+  right: 10%;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* Нижний левый */
+.bottomLeft {
+  bottom: 20%;
+  left: 10%;
+  border-right: none;
+  border-top: none;
+}
+
+/* Нижний правый */
+.bottomRight {
+  bottom: 20%;
+  right: 10%;
+  border-left: none;
+  border-top: none;
 }
