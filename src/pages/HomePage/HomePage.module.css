@@ -34,6 +34,8 @@
   background-color: hsl(193deg 100% 12% / 90%);
 }
 
+/* ---------------------------- */
+
 .webcamWrap {
   position: relative;
   width: 100%;
@@ -50,4 +52,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover; /* важно! кадрирование без искажений */
+}
+
+.capturedWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto; /* чтобы кнопки не обрезались */
+  background-color: black;
+}
+
+.capturedImg {
+  max-width: 90%;
+  height: auto;
+  margin-bottom: 20px;
 }

@@ -80,6 +80,8 @@ const HomePage = () => {
                         audio={false}
                         screenshotFormat="image/png"
                         videoConstraints={videoConstraints}
+                        width={window.innerWidth}
+                        height={window.innerHeight * 0.8} // под 80vh
                     />
                 </div>
             )}
