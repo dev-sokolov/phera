@@ -1,0 +1,35 @@
+.wrapGreeting {
+  display: flex;
+  justify-content: center;
+}
+
+.greeting {
+  font-size: 35px;
+  margin-top: 50px;
+  /* color: blue; */
+  color: hsl(193 100% 12%);
+  margin-bottom: 50px;
+}
+
+.wrapBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  padding: 15px 25px;
+  font-size: 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  /* background-color: #007bff; */
+  background-color: hsl(193 100% 12%);
+  color: white;
+  border: none;
+  margin: 10px;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  /* background-color: #0056b3; */
+  background-color: hsl(193deg 100% 12% / 90%);
+}
