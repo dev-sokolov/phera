@@ -36,9 +36,9 @@
 
 .webcamWrap {
   position: relative;
-  width: 100%;
+  width: 50%;
   max-width: 100%;
-  height: 100vh; /* или фиксированную высоту, например 80vh */
+  height: 80vh; /* или фиксированную высоту, например 80vh */
   overflow: hidden;
   display: flex;
   justify-content: center;
