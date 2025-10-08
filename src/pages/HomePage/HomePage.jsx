@@ -55,51 +55,51 @@ const HomePage = () => {
                 <p className={styles.greeting}>Welcome page</p>
             </div>
 
-            <div className={styles.wrapBtn}>
-                {!isCameraOn && !capturedImage && (
-                    <button onClick={handleStartCamera} className={styles.btn}>
-                        Turn on the camera
-                    </button>
-                )}
-                {isCameraOn && (
-                    <>
+            {!isCameraOn && !capturedImage && (     // Camera off
+                <>
+                    <div className={styles.wrapBtn}>
+                        <button onClick={handleStartCamera} className={styles.btn}>
+                            Turn on the camera
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {isCameraOn && (     // Camera on
+                <>
+                    <div className={styles.webcamWrap}>
+                        <Webcam
+                            ref={webcamRef}
+                            audio={false}
+                            screenshotFormat="image/png"
+                            videoConstraints={videoConstraints}
+                            width={window.innerWidth}
+                            height={window.innerHeight * 0.8} // под 80vh
+                        />
+                    </div>
+                    <div className={styles.wrapBtn}>
                         <button onClick={handleCapture} className={styles.btn}>
                             Scan pH strip
                         </button>
                         <button onClick={handleStopCamera} className={styles.btn}>
                             Home
                         </button>
-                    </>
-                )}
-            </div>
-
-            {isCameraOn && (
-                <div className={styles.webcamWrap}>
-                    <Webcam
-                        ref={webcamRef}
-                        audio={false}
-                        screenshotFormat="image/png"
-                        videoConstraints={videoConstraints}
-                        width={window.innerWidth}
-                        height={window.innerHeight * 0.8} // под 80vh
-                    />
-                </div>
+                    </div>
+                </>
             )}
 
             {capturedImage && (
                 <>
                     <div className={styles.capturedWrap}>
-                        <p>Captured Image:</p>
                         <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
-                        <div className={styles.wrapBtn}>
-                            <button onClick={handleStartCamera} className={styles.btn}>
-                                Retake
-                            </button>
-                            <button onClick={handleReset} className={styles.btn}>
-                                Home
-                            </button>
-                        </div>
-
+                    </div>
+                    <div className={styles.wrapBtn}>
+                        <button onClick={handleStartCamera} className={styles.btn}>
+                            Retake
+                        </button>
+                        <button onClick={handleReset} className={styles.btn}>
+                            Home
+                        </button>
                     </div>
                 </>
             )}
