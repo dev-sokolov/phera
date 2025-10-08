@@ -91,12 +91,15 @@ const HomePage = () => {
                     <div className={styles.capturedWrap}>
                         <p>Captured Image:</p>
                         <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
-                        <button onClick={handleStartCamera} className={styles.btn}>
-                            Retake
-                        </button>
-                        <button onClick={handleReset} className={styles.btn}>
-                            Home
-                        </button>
+                        <div className={styles.wrapBtn}>
+                            <button onClick={handleStartCamera} className={styles.btn}>
+                                Retake
+                            </button>
+                            <button onClick={handleReset} className={styles.btn}>
+                                Home
+                            </button>
+                        </div>
+
                     </div>
                 </>
             )}
