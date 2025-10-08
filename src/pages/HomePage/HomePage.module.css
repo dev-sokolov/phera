@@ -33,3 +33,21 @@
   /* background-color: #0056b3; */
   background-color: hsl(193deg 100% 12% / 90%);
 }
+
+.webcamWrap {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100vh; /* или фиксированную высоту, например 80vh */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black; /* чтобы не было белых полос */
+}
+
+.webcamWrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* важно! кадрирование без искажений */
+}
