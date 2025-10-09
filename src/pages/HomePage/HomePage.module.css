@@ -18,26 +18,6 @@
     margin-top: 20px;
 }
 
-.btn {
-    padding: 15px 25px;
-    font-size: 25px;
-    border-radius: 15px;
-    cursor: pointer;
-    /* background-color: #007bff; */
-    background-color: hsl(193 100% 12%);
-    color: white;
-    border: none;
-    /* margin: 10px; */
-    transition: background-color 0.2s;
-}
-
-.btn:hover {
-    /* background-color: #0056b3; */
-    background-color: hsl(193deg 100% 12% / 90%);
-}
-
-/* ---------------------------- */
-
 .webcamWrap {
     height: 60vh;
     overflow: hidden;
@@ -49,27 +29,9 @@
     /* object-fit: cover; */
 }
 
-.capturedWrap {
+.loadingText {
+    font-size: 25px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
 }
 
-.capturedImg {
-    max-width: 65%;
-    /* height: 50%; */
-}
-
-.capturedWrap .btn {
-    /* position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%); */
-}
-
-.wrapBtn {
-    /* position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%); */
-}
