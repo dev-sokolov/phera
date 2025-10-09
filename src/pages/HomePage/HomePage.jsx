@@ -75,7 +75,7 @@ const HomePage = () => {
                             audio={false}
                             screenshotFormat="image/png"
                             videoConstraints={videoConstraints}
-                            onUserMedia={() => setIsLoading(false)}         // камера включилась
+                            onUserMedia={() => setIsLoading(true)}         // камера включилась
                             onUserMediaError={() => setIsLoading(false)}
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
