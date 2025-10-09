@@ -20,7 +20,7 @@ const HomePage = () => {
     const handleStartCamera = () => {
         setCapturedImage(null);
         setIsCameraOn(true);
-        setIsLoading(true);       
+        setIsLoading(true);
     };
 
     const handleStopCamera = () => {
@@ -61,9 +61,11 @@ const HomePage = () => {
                 </>
             )}
 
-            {isLoading && <div className={styles.loadingText}>
-                <p>Starting camera...</p>
-            </div>}
+            {isCameraOn && isLoading && (
+                <div className={styles.loadingText}>
+                    <p>Starting camera...</p>
+                </div>
+            )}
 
             {isCameraOn && (     // Camera on
                 <>
