@@ -65,11 +65,11 @@ const HomePage = () => {
                 </>
             )}
 
-            {isCameraOn && isLoading && (
+            {/* {isCameraOn && isLoading && (
                 <div className={styles.loadingText}>
                     <p>Starting camera...</p>
                 </div>
-            )}
+            )} */}
 
             {isCameraOn && (     // Camera on
                 <>
