@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import Webcam from "react-webcam";
 import CapturedImage from "../../components/CapturedImage/CapturedImage";
-import Button from "../../components/Button/Button";
 
 import styles from "./HomePage.module.css";
 
@@ -63,7 +62,9 @@ const HomePage = () => {
             {!isCameraOn && !capturedImage && (     // Camera off
                 <>
                     <div className={styles.wrapBtn}>
-                        <Button onClick={handleStartCamera}>Turn on the camera</Button>
+                        <button onClick={handleStartCamera} className={styles.btn}>
+                            Turn on the camera
+                        </button>
                     </div>
                 </>
             )}
@@ -81,8 +82,12 @@ const HomePage = () => {
                         />
                     </div>
                     <div className={styles.wrapBtn}>
-                        <Button onClick={handleCapture}>Scan pH strip</Button>
-                        <Button onClick={handleStopCamera}>Home</Button>
+                        <button onClick={handleCapture} className={styles.btn}>
+                            Scan pH strip
+                        </button>
+                        <button onClick={handleStopCamera} className={styles.btn}>
+                            Home
+                        </button>
                     </div>
                 </>
             )}
