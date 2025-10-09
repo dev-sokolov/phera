@@ -8,14 +8,8 @@ import styles from "./HomePage.module.css";
 const HomePage = () => {
     const [isCameraOn, setIsCameraOn] = useState(false);
     const [capturedImage, setCapturedImage] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
 
     const webcamRef = useRef(null);
-
-    // Настройки камеры: задняя камера на смартфонах
-    // const videoConstraints = {
-    //     facingMode: { ideal: "environment" },
-    // };
 
     const videoConstraints = {
         facingMode: "environment",
@@ -23,7 +17,6 @@ const HomePage = () => {
 
     const handleStartCamera = () => {
         setCapturedImage(null);
-        setIsLoading(true);///////////////////////
         setIsCameraOn(true);
 
     };
@@ -44,10 +37,9 @@ const HomePage = () => {
     };
 
     const handleReset = () => {
-        if (webcamRef.current) {
-            const tracks = webcamRef.current.video.srcObject?.getTracks();
-            tracks?.forEach((track) => track.stop());
-        }
+        const video = webcamRef.current?.video;
+        const tracks = video?.srcObject?.getTracks();
+        tracks?.forEach((track) => track.stop());
         setCapturedImage(null);
         setIsCameraOn(false);
     };
@@ -66,12 +58,6 @@ const HomePage = () => {
                 </>
             )}
 
-            {isCameraOn && isLoading && (
-                <div className={styles.loadingText}>
-                    <p>Starting camera...</p>
-                </div>
-            )}
-
             {isCameraOn && (     // Camera on
                 <>
                     <div className={styles.webcamWrap}>
@@ -80,8 +66,6 @@ const HomePage = () => {
                             audio={false}
                             screenshotFormat="image/png"
                             videoConstraints={videoConstraints}
-                            onUserMedia={() => setIsLoading(false)}         // камера включилась/////////////
-                            onUserMediaError={() => setIsLoading(false)}
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
                         />
