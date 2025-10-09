@@ -13,8 +13,12 @@ const HomePage = () => {
     const webcamRef = useRef(null);
 
     // Настройки камеры: задняя камера на смартфонах
+    // const videoConstraints = {
+    //     facingMode: { ideal: "environment" },
+    // };
+
     const videoConstraints = {
-        facingMode: { ideal: "environment" },
+        facingMode: "environment",
     };
 
     const handleStartCamera = () => {
