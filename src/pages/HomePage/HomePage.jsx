@@ -8,7 +8,6 @@ import styles from "./HomePage.module.css";
 const HomePage = () => {
     const [isCameraOn, setIsCameraOn] = useState(false);
     const [capturedImage, setCapturedImage] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
 
     const webcamRef = useRef(null);
 
@@ -18,14 +17,11 @@ const HomePage = () => {
     };
 
     const handleStartCamera = async () => {
-        setIsLoading(true);
-        try {            
-            setCapturedImage(null);  // сброс предыдущего фото
+        try {
             setIsCameraOn(true);
+            setCapturedImage(null);  // сброс предыдущего фото
         } catch (err) {
             console.error("Error starting camera:", err);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -71,8 +67,6 @@ const HomePage = () => {
                     </div>
                 </>
             )}
-
-            {isLoading && <p className={styles.loadingText}>Starting camera...</p> }
 
             {isCameraOn && (     // Camera on
                 <>
