@@ -18,19 +18,16 @@ const HomePage = () => {
     };
 
     const handleStartCamera = async () => {
-        // setIsLoading(true);
-        // try {
-        //     await new Promise(resolve => setTimeout(resolve, 1000)); // 1.5 сек "загрузка"
-        //     setCapturedImage(null);  // сброс предыдущего фото
-        //     setIsCameraOn(true);
-        // } catch (err) {
-        //     console.error("Error starting camera:", err);
-        // } finally {
-        //     setIsLoading(false);
-        // }
         setIsLoading(true);
-        setCapturedImage(null);
-        setIsCameraOn(true);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1.5 сек "загрузка"
+            setCapturedImage(null);  // сброс предыдущего фото
+            setIsCameraOn(true);
+        } catch (err) {
+            console.error("Error starting camera:", err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleStopCamera = () => {
