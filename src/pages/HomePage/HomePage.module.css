@@ -49,3 +49,27 @@
     /* object-fit: cover; */
 }
 
+.capturedWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.capturedImg {
+    max-width: 65%;
+    /* height: 50%; */
+}
+
+.capturedWrap .btn {
+    /* position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%); */
+}
+
+.wrapBtn {
+    /* position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); */
+}

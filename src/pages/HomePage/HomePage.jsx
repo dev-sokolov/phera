@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import Webcam from "react-webcam";
-import CapturedImage from "../../components/CapturedImage/CapturedImage";
 
 import styles from "./HomePage.module.css";
 
@@ -11,6 +10,7 @@ const HomePage = () => {
     const webcamRef = useRef(null);
 
     // Настройки камеры: задняя камера на смартфонах
+
     const videoConstraints = {
         facingMode: { ideal: "environment" },
     };
@@ -25,14 +25,10 @@ const HomePage = () => {
     };
 
     const handleStopCamera = () => {
-        // if (webcamRef.current) {
-        //     const tracks = webcamRef.current.video.srcObject?.getTracks();
-        //     tracks?.forEach((track) => track.stop());
-        // }
-        // setIsCameraOn(false);
-        const video = webcamRef.current?.video;
-        const tracks = video?.srcObject?.getTracks();
-        tracks?.forEach((track) => track.stop());
+        if (webcamRef.current) {
+            const tracks = webcamRef.current.video.srcObject?.getTracks();
+            tracks?.forEach((track) => track.stop());
+        }
         setIsCameraOn(false);
     };
 
@@ -92,11 +88,20 @@ const HomePage = () => {
                 </>
             )}
 
-            {capturedImage && (<CapturedImage
-                src={capturedImage}
-                handleStartCamera={handleStartCamera}
-                handleReset={handleReset}
-            />
+            {capturedImage && (
+                <>
+                    <div className={styles.capturedWrap}>
+                        <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
+                    </div>
+                    <div className={styles.wrapBtn}>
+                        <button onClick={handleStartCamera} className={styles.btn}>
+                            Retake
+                        </button>
+                        <button onClick={handleReset} className={styles.btn}>
+                            Home
+                        </button>
+                    </div>
+                </>
             )}
         </>
     )
