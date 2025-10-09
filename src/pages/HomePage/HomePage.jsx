@@ -1,34 +1,32 @@
 import { useState, useRef } from "react";
 import Webcam from "react-webcam";
+import CapturedImage from "../../components/CapturedImage/CapturedImage";
+import Button from "../../components/Button/Button";
 
 import styles from "./HomePage.module.css";
 
 const HomePage = () => {
     const [isCameraOn, setIsCameraOn] = useState(false);
     const [capturedImage, setCapturedImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const webcamRef = useRef(null);
 
     // Настройки камеры: задняя камера на смартфонах
-
     const videoConstraints = {
         facingMode: { ideal: "environment" },
     };
 
-    const handleStartCamera = async () => {
-        try {
-            setIsCameraOn(true);
-            setCapturedImage(null);  // сброс предыдущего фото
-        } catch (err) {
-            console.error("Error starting camera:", err);
-        }
+    const handleStartCamera = () => {
+        setIsLoading(true);
+        setCapturedImage(null);
+        setIsCameraOn(true);
     };
 
     const handleStopCamera = () => {
-        if (webcamRef.current) {
-            const tracks = webcamRef.current.video.srcObject?.getTracks();
-            tracks?.forEach((track) => track.stop());
-        }
+        const video = webcamRef.current?.video;
+        const tracks = video?.srcObject?.getTracks();
+        tracks?.forEach((track) => track.stop());
         setIsCameraOn(false);
     };
 
@@ -58,12 +56,14 @@ const HomePage = () => {
             {!isCameraOn && !capturedImage && (     // Camera off
                 <>
                     <div className={styles.wrapBtn}>
-                        <button onClick={handleStartCamera} className={styles.btn}>
-                            Turn on the camera
-                        </button>
+                        <Button onClick={handleStartCamera}>Turn on the camera</Button>
                     </div>
                 </>
             )}
+
+            {isLoading && <div className={styles.loadingText}>
+                <p>Starting camera...</p>
+            </div>}
 
             {isCameraOn && (     // Camera on
                 <>
@@ -73,35 +73,24 @@ const HomePage = () => {
                             audio={false}
                             screenshotFormat="image/png"
                             videoConstraints={videoConstraints}
+                            onUserMedia={() => setIsLoading(false)}         // камера включилась
+                            onUserMediaError={() => setIsLoading(false)}
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
                         />
                     </div>
                     <div className={styles.wrapBtn}>
-                        <button onClick={handleCapture} className={styles.btn}>
-                            Scan pH strip
-                        </button>
-                        <button onClick={handleStopCamera} className={styles.btn}>
-                            Home
-                        </button>
+                        <Button onClick={handleCapture}>Scan pH strip</Button>
+                        <Button onClick={handleStopCamera}>Home</Button>
                     </div>
                 </>
             )}
 
-            {capturedImage && (
-                <>
-                    <div className={styles.capturedWrap}>
-                        <img src={capturedImage} alt="pH strip" className={styles.capturedImg} />
-                    </div>
-                    <div className={styles.wrapBtn}>
-                        <button onClick={handleStartCamera} className={styles.btn}>
-                            Retake
-                        </button>
-                        <button onClick={handleReset} className={styles.btn}>
-                            Home
-                        </button>
-                    </div>
-                </>
+            {capturedImage && (<CapturedImage
+                src={capturedImage}
+                handleStartCamera={handleStartCamera}
+                handleReset={handleReset}
+            />
             )}
         </>
     )

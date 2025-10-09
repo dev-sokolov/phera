@@ -1,0 +1,14 @@
+.btn {
+    padding: 15px 25px;
+    font-size: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: hsl(193 100% 12%);
+    color: white;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: hsl(193deg 100% 12% / 90%);
+}
