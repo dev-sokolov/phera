@@ -13,21 +13,32 @@ const HomePage = () => {
     const webcamRef = useRef(null);
 
     // Настройки камеры: задняя камера на смартфонах
-    // const videoConstraints = {
-    //     facingMode: { ideal: "environment" },
-    // };
-
     const videoConstraints = {
-        facingMode: "environment",
+        facingMode: { ideal: "environment" },
     };
 
-    const handleStartCamera = () => {
+    const handleStartCamera = async () => {
+        // setIsLoading(true);
+        // try {
+        //     await new Promise(resolve => setTimeout(resolve, 1000)); // 1.5 сек "загрузка"
+        //     setCapturedImage(null);  // сброс предыдущего фото
+        //     setIsCameraOn(true);
+        // } catch (err) {
+        //     console.error("Error starting camera:", err);
+        // } finally {
+        //     setIsLoading(false);
+        // }
+        setIsLoading(true);
         setCapturedImage(null);
         setIsCameraOn(true);
-        setIsLoading(true);
     };
 
     const handleStopCamera = () => {
+        // if (webcamRef.current) {
+        //     const tracks = webcamRef.current.video.srcObject?.getTracks();
+        //     tracks?.forEach((track) => track.stop());
+        // }
+        // setIsCameraOn(false);
         const video = webcamRef.current?.video;
         const tracks = video?.srcObject?.getTracks();
         tracks?.forEach((track) => track.stop());
@@ -65,11 +76,7 @@ const HomePage = () => {
                 </>
             )}
 
-            {/* {isCameraOn && isLoading && (
-                <div className={styles.loadingText}>
-                    <p>Starting camera...</p>
-                </div>
-            )} */}
+            {isLoading && <p className={styles.loadingText}>Starting camera...</p>}
 
             {isCameraOn && (     // Camera on
                 <>
