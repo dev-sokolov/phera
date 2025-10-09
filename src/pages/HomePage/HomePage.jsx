@@ -21,10 +21,14 @@ const HomePage = () => {
 
     };
 
-    const handleStopCamera = () => {
+    const stopCamera = () => {
         const video = webcamRef.current?.video;
         const tracks = video?.srcObject?.getTracks();
         tracks?.forEach((track) => track.stop());
+    }
+
+    const handleStopCamera = () => {
+        stopCamera();
         setIsCameraOn(false);
     };
 
@@ -37,9 +41,7 @@ const HomePage = () => {
     };
 
     const handleReset = () => {
-        const video = webcamRef.current?.video;
-        const tracks = video?.srcObject?.getTracks();
-        tracks?.forEach((track) => track.stop());
+        stopCamera();
         setCapturedImage(null);
         setIsCameraOn(false);
     };
@@ -50,12 +52,10 @@ const HomePage = () => {
                 <p className={styles.greeting}>Welcome page</p>
             </div>
 
-            {!isCameraOn && !capturedImage && (     // Camera off
-                <>
-                    <div className={styles.wrapBtn}>
-                        <Button onClick={handleStartCamera}>Turn on the camera</Button>
-                    </div>
-                </>
+            {!isCameraOn && !capturedImage && (     // Camera off                
+                <div className={styles.wrapBtn}>
+                    <Button onClick={handleStartCamera}>Turn on the camera</Button>
+                </div>
             )}
 
             {isCameraOn && (     // Camera on
@@ -66,8 +66,10 @@ const HomePage = () => {
                             audio={false}
                             screenshotFormat="image/png"
                             videoConstraints={videoConstraints}
+                            alt="Camera preview"
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
+                            playsInline
                         />
                     </div>
                     <div className={styles.wrapBtn}>
