@@ -23,7 +23,7 @@ const HomePage = () => {
 
     const handleStartCamera = () => {
         setCapturedImage(null);
-        setIsLoading(true);///////////////////////
+        // setIsLoading(true);///////////////////////
         setIsCameraOn(true);
 
     };
