@@ -24,7 +24,7 @@ const HomePage = () => {
     const handleStartCamera = () => {
         setCapturedImage(null);
         setIsCameraOn(true);
-        setIsLoading(true);///////////////////////
+        // setIsLoading(true);///////////////////////
     };
 
     const handleStopCamera = () => {
@@ -79,7 +79,7 @@ const HomePage = () => {
                             audio={false}
                             screenshotFormat="image/png"
                             videoConstraints={videoConstraints}
-                            onUserMedia={() => setIsLoading(false)}         // камера включилась/////////////
+                            onUserMedia={() => setIsLoading(true)}         // камера включилась/////////////
                             onUserMediaError={() => setIsLoading(false)}
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
