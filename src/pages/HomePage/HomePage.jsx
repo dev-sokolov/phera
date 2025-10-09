@@ -19,8 +19,7 @@ const HomePage = () => {
 
     const handleStartCamera = async () => {
         setIsLoading(true);
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // 1.5 сек "загрузка"
+        try {            
             setCapturedImage(null);  // сброс предыдущего фото
             setIsCameraOn(true);
         } catch (err) {
@@ -73,7 +72,7 @@ const HomePage = () => {
                 </>
             )}
 
-            {isLoading && <p className={styles.loadingText}>Starting camera...</p>}
+            {isLoading && <p className={styles.loadingText}>Starting camera...</p> }
 
             {isCameraOn && (     // Camera on
                 <>
@@ -83,8 +82,6 @@ const HomePage = () => {
                             audio={false}
                             screenshotFormat="image/png"
                             videoConstraints={videoConstraints}
-                            onUserMedia={() => setIsLoading(false)}         // камера включилась
-                            onUserMediaError={() => setIsLoading(false)}
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
                         />
