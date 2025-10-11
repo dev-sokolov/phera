@@ -11,10 +11,6 @@ const HomePage = () => {
 
     const webcamRef = useRef(null);
 
-    const videoConstraints = {
-        facingMode: "environment",
-    };
-
     const handleStartCamera = () => {
         setCapturedImage(null);
         setIsCameraOn(true);
@@ -66,8 +62,8 @@ const HomePage = () => {
                             screenshotFormat="image/png"
                             imageSmoothing={false}
                             videoConstraints={{ facingMode: "environment" }}
-                            width={window.innerWidth * 0.5} ///////////////////
-                            height={window.innerHeight * 0.5} // под 80vh   /////////////
+                            width={window.innerWidth}
+                            height={window.innerHeight * 0.5} // под 80vh
                             playsInline
                         />
                     </div>
@@ -78,7 +74,7 @@ const HomePage = () => {
                 </>
             )}
 
-            {capturedImage && (<CapturedImage
+            {capturedImage && (<CapturedImage  className={styles.capturedImg}
                 src={capturedImage}
                 handleStartCamera={handleStartCamera}
                 handleReset={handleReset}
