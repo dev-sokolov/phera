@@ -74,7 +74,7 @@ const HomePage = () => {
                 </>
             )}
 
-            {capturedImage && (<CapturedImage  className={styles.capturedImg}
+            {capturedImage && (<CapturedImage
                 src={capturedImage}
                 handleStartCamera={handleStartCamera}
                 handleReset={handleReset}
