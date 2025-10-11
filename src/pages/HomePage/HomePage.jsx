@@ -63,15 +63,12 @@ const HomePage = () => {
                         <Webcam
                             ref={webcamRef}
                             audio={false}
-                            // screenshotFormat="image/png"
-                            screenshotFormat="image/png"///////////////////
-                            videoConstraints={videoConstraints}
-                            alt="Camera preview"
+                            screenshotFormat="image/png"
+                            imageSmoothing={false}
+                            videoConstraints={{ facingMode: "environment" }}
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
                             playsInline
-                            imageSmoothing={true} ///////////////?????????
-                            screenshotQuality={1}/////////////////////
                         />
                     </div>
                     <div className={styles.wrapBtn}>
