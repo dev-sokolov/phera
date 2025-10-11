@@ -64,7 +64,7 @@ const HomePage = () => {
                             ref={webcamRef}
                             audio={false}
                             // screenshotFormat="image/png"
-                            screenshotFormat="image/webp"///////////////////
+                            screenshotFormat="image/png"///////////////////
                             videoConstraints={videoConstraints}
                             alt="Camera preview"
                             width={window.innerWidth}
