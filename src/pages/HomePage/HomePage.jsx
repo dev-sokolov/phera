@@ -71,7 +71,7 @@ const HomePage = () => {
                             height={window.innerHeight * 0.8} // под 80vh
                             playsInline
                             imageSmoothing={true} ///////////////?????????
-                            screenshotQuality={0.5}/////////////////////
+                            screenshotQuality={1}/////////////////////
                         />
                     </div>
                     <div className={styles.wrapBtn}>
