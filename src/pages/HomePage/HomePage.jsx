@@ -66,8 +66,8 @@ const HomePage = () => {
                             screenshotFormat="image/png"
                             imageSmoothing={false}
                             videoConstraints={{ facingMode: "environment" }}
-                            width={window.innerWidth}
-                            height={window.innerHeight * 0.8} // под 80vh
+                            width={window.innerWidth * 0.5} ///////////////////
+                            height={window.innerHeight * 0.5} // под 80vh   /////////////
                             playsInline
                         />
                     </div>
