@@ -18,7 +18,6 @@ const HomePage = () => {
     const handleStartCamera = () => {
         setCapturedImage(null);
         setIsCameraOn(true);
-
     };
 
     const stopCamera = () => {
@@ -64,12 +63,15 @@ const HomePage = () => {
                         <Webcam
                             ref={webcamRef}
                             audio={false}
-                            screenshotFormat="image/png"
+                            // screenshotFormat="image/png"
+                            screenshotFormat="image/webp"///////////////////
                             videoConstraints={videoConstraints}
                             alt="Camera preview"
                             width={window.innerWidth}
                             height={window.innerHeight * 0.8} // под 80vh
                             playsInline
+                            imageSmoothing={true} ///////////////?????????
+                            screenshotQuality={0.5}/////////////////////
                         />
                     </div>
                     <div className={styles.wrapBtn}>
