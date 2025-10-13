@@ -21,6 +21,7 @@
 .webcamWrap {
     height: 60vh;
     overflow: hidden;
+    margin-top: 50px;
 }
 
 .webcamWrap video {

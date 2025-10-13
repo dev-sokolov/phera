@@ -43,14 +43,16 @@ const HomePage = () => {
 
     return (
         <>
-            <div className={styles.wrapGreeting}>
-                <p className={styles.greeting}>Welcome page</p>
-            </div>
+            {!isCameraOn && !capturedImage && (     // Camera off        
+                <>
+                    <div className={styles.wrapGreeting}>
+                        <p className={styles.greeting}>Home page</p>
+                    </div>
+                    <div className={styles.wrapBtn}>
+                        <Button onClick={handleStartCamera}>Turn on the camera</Button>
+                    </div>
+                </>
 
-            {!isCameraOn && !capturedImage && (     // Camera off                
-                <div className={styles.wrapBtn}>
-                    <Button onClick={handleStartCamera}>Turn on the camera</Button>
-                </div>
             )}
 
             {isCameraOn && (     // Camera on
@@ -74,11 +76,18 @@ const HomePage = () => {
                 </>
             )}
 
-            {capturedImage && (<CapturedImage
-                src={capturedImage}
-                handleStartCamera={handleStartCamera}
-                handleReset={handleReset}
-            />
+            {capturedImage && (
+                <>
+                    <div className={styles.wrapGreeting}>
+                        <p className={styles.greeting}>Result page</p>
+                    </div>
+                    <CapturedImage
+                        src={capturedImage}
+                        handleStartCamera={handleStartCamera}
+                        handleReset={handleReset}
+                    />
+                </>
+
             )}
         </>
     )
