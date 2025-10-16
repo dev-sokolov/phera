@@ -1,0 +1,102 @@
+.wrapResultPage {
+    background-color: rgb(224, 222, 210);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 640px;
+    padding: 24px 16px;
+}
+
+.ph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    background-color: #FFFFFF;
+    width: 100%;
+    border-radius: 15px;
+}
+
+.phTitle {
+    color: #627084;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.phValue {
+    color: #1D2530;
+    margin-top: 16px;
+    font-size: 72px;
+    font-weight: 700;
+}
+
+.phInfo {
+    display: flex;
+    margin-top: 16px;
+    gap: 20px;
+    color: #627084;
+        font-size: 14px;
+}
+
+.phConfidence {
+    display: flex;
+    font-size: 12px;
+}
+
+.phDescription {
+    background-color: #FFFFFF;
+    padding: 24px;
+    width: 100%;
+    border-radius: 15px;
+}
+
+.phDescription h3 {
+    margin-bottom: 12px;
+    color: #1D2530;
+    font-weight: 600;
+}
+
+.phDescription p {
+    color: #627084;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.processingResults {
+    width: 100%;
+}
+
+.btnsBlock {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.btnsBlock .btn {
+    width: 100%;
+}
+
+.btn {
+    font-size: 14px;
+    font-weight: 800;
+    /* background-color: #00343D; */
+    background-color: hsl(189, 100%, 12%);
+    color: #FFFFFF;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 15px;
+}
+
+.btn:hover {
+    cursor: pointer;
+    /* background-color: hsl(193deg 100% 12% / 90%); */
+    background-color: hsl(189deg 100% 12% / 90%);
+}

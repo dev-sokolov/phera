@@ -4,7 +4,8 @@
 
 html,
 body {
-    font-family: "Nunito Sans", sans-serif;
+    /* font-family: "Nunito Sans", sans-serif; */
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     margin: 0;
     padding: 0;
     overflow: hidden;

@@ -1,9 +1,11 @@
-.wrapGreeting {
+.wrapHomePage {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
 }
 
-.greeting {
+.title {
     font-size: 35px;
     font-weight: 600;
     margin-top: 50px;
@@ -18,22 +20,28 @@
     margin-top: 20px;
 }
 
-.webcamWrap {
+.wrapCamera {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.webcam {
     height: 60vh;
     overflow: hidden;
     margin-top: 50px;
 }
 
-.webcamWrap video {
+.webcam video {
     width: 100%;
     height: 100%;
     /* object-fit: cover; */
 }
 
-.loadingText {
+/* .loadingText {
     font-size: 25px;
     display: flex;
     justify-content: center;
-}
+} */
 
 
