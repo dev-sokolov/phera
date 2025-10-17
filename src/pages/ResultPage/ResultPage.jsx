@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import JSZip from "jszip";
 import { useRef } from "react";
-import Button from "../../components/Button/Button";
+
+import PersonalData from "../../components/PersonalData/PersonalData";
+// import Button from "../../components/Button/Button";
 
 import styles from "./ResultPage.module.css";
 
@@ -115,7 +117,7 @@ const ResultPage = () => {
                         <button className={styles.btn}  onClick={handleTalkToDoctor}>Talk to a Doctor</button>
                     </div>
                 </div>
-                <div className={styles.personalInfo}></div>
+                <div className={styles.personalData}> <PersonalData /> </div>
             </div>
         </div>
     );
