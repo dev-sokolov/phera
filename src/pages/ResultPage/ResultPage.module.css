@@ -3,6 +3,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
+    /* Вместо фиксированной высоты — минимум на экран */
+    overflow-y: auto;
+    /* Включаем вертикальную прокрутку */
+    -webkit-overflow-scrolling: touch;
+    /* плавный скролл на мобильных */
 }
 
 .content {
