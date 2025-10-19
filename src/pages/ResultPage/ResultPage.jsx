@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import JSZip from "jszip";
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import PersonalData from "../../components/PersonalData/PersonalData";
 // import Button from "../../components/Button/Button";
@@ -12,6 +11,8 @@ const ResultPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
+
+    const [isDataSharingActive, setIsDataSharingActive] = useState(false);
 
     // Получаем переданные данные
     const { capturedImage } = location.state || {}; //////////////////////////
@@ -113,11 +114,17 @@ const ResultPage = () => {
                             accept=".json" // разрешаем только JSON-файлы 
                             onChange={handleFileChange}
                         />
-                        <button className={styles.btn}>Share Data</button>
-                        <button className={styles.btn}  onClick={handleTalkToDoctor}>Talk to a Doctor</button>
+                        {/* <button className={styles.btn}  onClick={() => setIsDataSharingActive(true)}>Share Data</button> */}
+                        <button
+                            className={`${styles.btn} ${styles.btnShare} ${isDataSharingActive ? styles.btnActive : ""}`}
+                            onClick={() => setIsDataSharingActive(prev => !prev)}
+                        >
+                           Share Data
+                        </button>
+                        <button className={styles.btn} onClick={handleTalkToDoctor}>Talk to a Doctor</button>
                     </div>
                 </div>
-                <div className={styles.personalData}> <PersonalData /> </div>
+                <div className={styles.personalData}> <PersonalData isActive={isDataSharingActive} /> </div>
             </div>
         </div>
     );
