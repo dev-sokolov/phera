@@ -14,6 +14,10 @@ const ResultPage = () => {
 
     const [isDataSharingActive, setIsDataSharingActive] = useState(false);
 
+    const [age, setAge] = useState("");
+    const [hormone, setHormone] = useState([]);
+    const [ancestral, setAncestral] = useState("");
+
     // Получаем переданные данные
     const { capturedImage } = location.state || {}; //////////////////////////
 
@@ -71,7 +75,6 @@ const ResultPage = () => {
             try {
                 const content = e.target.result;
                 const data = JSON.parse(content);
-                console.log("Импортированные данные:", data);
                 // Здесь можно обновить состояние или что-то сделать с данными
             } catch (err) {
                 console.error("Ошибка при чтении файла", err);
@@ -119,12 +122,20 @@ const ResultPage = () => {
                             className={`${styles.btn} ${styles.btnShare} ${isDataSharingActive ? styles.btnActive : ""}`}
                             onClick={() => setIsDataSharingActive(prev => !prev)}
                         >
-                           Share Data
+                            Share Data
                         </button>
                         <button className={styles.btn} onClick={handleTalkToDoctor}>Talk to a Doctor</button>
                     </div>
                 </div>
-                <div className={styles.personalData}> <PersonalData isActive={isDataSharingActive} /> </div>
+                <div className={styles.personalData}> <PersonalData
+                    isActive={isDataSharingActive}
+                    age={age}
+                    setAge={setAge}
+                    hormone={hormone}
+                    setHormone={setHormone}
+                    ancestral={ancestral}
+                    setAncestral={setAncestral} />
+                </div>
             </div>
         </div>
     );

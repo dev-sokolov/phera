@@ -1,0 +1,18 @@
+.heading {
+    margin-bottom: 16px;
+    color: #1D2530;
+    font-weight: 600;
+}
+
+.wrapRecommendation {
+    border: 1px solid #00303d2c;
+    border-radius: 15px;
+    background-color: #00303D0D;
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.recommendation {
+    color: #1D2530E6;
+    font-size: 14px;
+}
