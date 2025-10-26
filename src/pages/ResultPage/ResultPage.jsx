@@ -3,8 +3,6 @@ import JSZip from "jszip";
 import { useState, useRef, useEffect } from "react";
 
 import PersonalData from "../../components/PersonalData/PersonalData";
-// import Button from "../../components/Button/Button";
-
 import styles from "./ResultPage.module.css";
 
 const ResultPage = () => {

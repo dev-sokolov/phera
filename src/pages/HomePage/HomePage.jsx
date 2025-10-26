@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
-// import CapturedImage from "../../components/CapturedImage/CapturedImage";
 import Button from "../../components/Button/Button";
+import Main from "../../components/Main/Main";
 
 import styles from "./HomePage.module.css";
 
@@ -32,7 +32,6 @@ const HomePage = () => {
             const imageSrc = webcamRef.current.getScreenshot();
             stopCamera();
 
-            // moving to result page
             navigate("/result", { state: { capturedImage: imageSrc } });
         }
     };
@@ -48,10 +47,10 @@ const HomePage = () => {
         <>
             {!isCameraOn && (     // Camera off        
                 <div className={styles.wrapHomePage}>
-                    <h2 className={styles.title}>Home page</h2>
-                    <div className={styles.wrapBtn}>
-                        <Button onClick={handleStartCamera}>Turn on the camera</Button>
-                    </div>
+                  <Main handleStartCamera={handleStartCamera}/>
+                    <footer className={styles.footer}>
+                        <p>pHera • Empowering vaginal health through accessible testing</p>
+                    </footer>
                 </div>
             )}
 
@@ -70,8 +69,8 @@ const HomePage = () => {
                         />
                     </div>
                     <div className={styles.wrapBtn}>
-                        <Button onClick={handleCapture}>Scan pH strip</Button>
-                        <Button onClick={handleStopCamera}>Home</Button>
+                        <button className={styles.btn} onClick={handleCapture}>Scan pH strip</button>
+                        <button className={styles.btn} onClick={handleStopCamera}>Home</button>
                     </div>
                 </div>
             )}
