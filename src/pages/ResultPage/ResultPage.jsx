@@ -3,6 +3,12 @@ import JSZip from "jszip";
 import { useState, useRef, useEffect } from "react";
 
 import PersonalData from "../../components/PersonalData/PersonalData";
+import importSvg from "../../assets/icons/importSvg.svg";
+import exportSvg from "../../assets/icons/exportSvg.svg";
+import talk from "../../assets/icons/talk.svg";
+import checkedYes from "../../assets/icons/checkedYes.svg";
+import checkedNo from "../../assets/icons/checkedNo.svg";
+
 import styles from "./ResultPage.module.css";
 
 const ResultPage = () => {
@@ -105,9 +111,15 @@ const ResultPage = () => {
                     <p>Your pH is within the typical acidic range associated with Lactobacillus dominance.</p>
                 </div>
                 <div className={styles.processingResults}>
-                    <div className={styles.btnsBlock}>
-                        <button className={styles.btn} onClick={handleExportZip}>Export Results</button>
-                        <button className={styles.btn} onClick={handleImportClick}>Import Results</button>
+                    <div className={styles.wrapBtn}>
+                        <button className={styles.btn} onClick={handleExportZip}>
+                            <div className={styles.icon}> <img src={exportSvg} alt="export" /></div>
+                            Export Results
+                        </button>
+                        <button className={styles.btn} onClick={handleImportClick}>
+                            <div className={styles.icon}> <img src={importSvg} alt="import" /></div>
+                            Import Results
+                        </button>
                         <input
                             type="file"
                             ref={fileInputRef}
@@ -115,14 +127,17 @@ const ResultPage = () => {
                             accept=".json" // разрешаем только JSON-файлы 
                             onChange={handleFileChange}
                         />
-                        {/* <button className={styles.btn}  onClick={() => setIsDataSharingActive(true)}>Share Data</button> */}
                         <button
-                            className={`${styles.btn} ${styles.btnShare} ${isDataSharingActive ? styles.btnActive : ""}`}
+                            className={styles.btn}
                             onClick={() => setIsDataSharingActive(prev => !prev)}
                         >
+                            <div className={styles.icon}> <img src={isDataSharingActive ? checkedYes : checkedNo} alt="check" /></div>
                             Share Data
                         </button>
-                        <button className={styles.btn} onClick={handleTalkToDoctor}>Talk to a Doctor</button>
+                        <button className={styles.btn} onClick={handleTalkToDoctor}>
+                            <div className={styles.icon}> <img src={talk} alt="talk to a Doktor" /></div>
+                            Talk to a Doctor
+                        </button>
                     </div>
                 </div>
                 <div className={styles.personalData}> <PersonalData
@@ -135,6 +150,7 @@ const ResultPage = () => {
                     setAncestral={setAncestral} />
                 </div>
             </div>
+            <div className={styles.footer}>Privacy: Frames are processed in memory and discarded. Results are not saved unless you export.</div>
         </div>
     );
 };
