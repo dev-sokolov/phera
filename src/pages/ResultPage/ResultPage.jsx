@@ -24,6 +24,8 @@ const ResultPage = () => {
 
     // Получаем переданные данные
     const { capturedImage } = location.state || {}; //////////////////////////
+    // console.log(capturedImage);
+
 
     useEffect(() => {
         if (!capturedImage) {
@@ -94,6 +96,15 @@ const ResultPage = () => {
     return (
         <div className={styles.wrapResultPage}>
             <div className={styles.content}>
+                {capturedImage && (
+                    <div className={styles.capturedImageWrap}>
+                        <img
+                            src={capturedImage}
+                            alt="Captured pH strip"
+                            className={styles.capturedImage}
+                        />
+                    </div>
+                )}
                 <div className={styles.ph}>
                     <p className={styles.phTitle}>Your pH</p>
                     <p className={styles.phValue}>4.3</p>

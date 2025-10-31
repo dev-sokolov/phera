@@ -33,7 +33,7 @@ const HormoneDropdown = ({ isActive, hormone, onChange, onRemove }) => {
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
-  const displayText = hormone.length === 0 ? "Select hormone factors" : `${hormone.length} selected`;
+  const displayText = hormone.length === 0 ? "Choose all that apply" : `${hormone.length} selected`;
 
   return (
     <div className={styles.wrap} ref={containerRef}>

@@ -1,14 +1,3 @@
-
-// const AncestralDropdown = () => {
-//     return (
-//         <>
-        
-//         </>
-//     )
-// };
-
-// export default AncestralDropdown;
-
 import { useState, useRef, useEffect, memo } from "react";
 import styles from "./AncestralDropdown.module.css";
 
@@ -46,12 +35,12 @@ const AncestralDropdown = ({ isActive, ancestral, onChange, onRemove }) => {
 
   const displayText =
     ancestral.length === 0
-      ? "Select ancestral background"
+      ? "Choose all that apply"
       : `${ancestral.length} selected`;
 
   return (
     <div className={styles.wrap} ref={containerRef}>
-      <h4 className={styles.title}>Ancestral Background</h4> 
+      <h4 className={styles.title}>Ancestral Background(s)</h4> 
       <div
         className={`${styles.select} ${!isActive ? styles.selectDisabled : ""}`}
         onClick={toggle}

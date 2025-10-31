@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import AgeDropdown from "../AgeDropdown/AgeDropdown";
 import HormoneDropdown from "../HormoneDropdown/HormoneDropdown";
 import RecommendationBox from "../RecommendationBox/RecommendationBox";
@@ -8,8 +7,6 @@ import Symptoms from "../Symptoms/Symptoms";
 import styles from "./PersonalData.module.css";
 
 const PersonalData = ({ isActive, age, setAge, hormone, setHormone, ancestral, setAncestral }) => {
-    const dropdownRef = useRef(null);
-
     const handleHormoneChange = (value) => {
         setHormone((prev) =>
             prev.includes(value)
@@ -36,7 +33,7 @@ const PersonalData = ({ isActive, age, setAge, hormone, setHormone, ancestral, s
 
     return (
         <>
-            <div className={styles.wrapper} ref={dropdownRef}>
+            <div className={`${styles.wrapper} ${!isActive ? styles.inactive : ""}`}>
                 <h3 className={styles.heading}>
                     Share data to get more personalised results (Optional)
                 </h3>
@@ -54,7 +51,7 @@ const PersonalData = ({ isActive, age, setAge, hormone, setHormone, ancestral, s
                         onChange={handleAncestralChange}
                         onRemove={handleAncestralRemove}
                     />
-                    <Symptoms isActive={isActive}/>
+                    <Symptoms isActive={isActive} />
                 </form>
             </div>
             <RecommendationBox age={age} hormone={hormone} ancestral={ancestral} />
