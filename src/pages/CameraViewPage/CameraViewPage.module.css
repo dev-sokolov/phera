@@ -1,117 +1,83 @@
 .cameraContainer {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
-    background-color: black;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: black;
 }
 
 .darkBackground {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1;
 }
 
 .webcamVideo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    /* transition: opacity 0.6s ease-in; */
-    /* transition: opacity 1s ease-out; */
-    transition: opacity 1s ease-in-out;
-    /* transition: opacity 1s ease-in; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
 .webcamVideo.show {
-    opacity: 1;
+  opacity: 1;
 }
 
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
 }
 
 .wrapBtn {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 4;
+  position: absolute;
+  top: calc(50% + 21vh);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
 .btn {
-    font-size: 18px;
-    font-weight: 600;
-    color: #ffffff;
-    border-radius: 12px;
-    background-color: #00303d;
-    padding: 12px 31px;
-    font-family: system-ui, sans-serif;
-    cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  border-radius: 12px;
+  background-color: #00303d;
+  padding: 12px 31px;
+  font-family: system-ui, sans-serif;
+  cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #00303de6;
+  background-color: #00303de6;
 }
-
-.spinnerOverlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-}
-
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 16px;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ------------------------------------------------------------ */
-
-
 
 .viewfinder {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   width: 80vw;
-  height: 50vh;
+  height: 60vh;
   transform: translate(-50%, -50%);
   border-radius: 20px;
   background: transparent;
@@ -119,7 +85,6 @@
   z-index: 3;
 }
 
-/* Уголки */
 .viewfinder::before,
 .viewfinder::after,
 .viewfinder .bottom-left,
@@ -128,7 +93,7 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 3px solid #fff; /* только внешние линии */
+  border: 3px solid #fff;
   box-sizing: border-box;
 }
 
@@ -168,32 +133,24 @@
   border-bottom-right-radius: 15px;
 }
 
-/* --------------------------------------------- ++*/
-
 .scanBtn {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   background-color: #ffffff;
 }
 
-.scanBtn:hover {
-  /* background-color: #eae9e9; */
-}
-
-/* Контейнер для кнопок сверху */
 .topControls {
   position: absolute;
   top: 20px;
   left: 20px;
-  z-index: 10; /* поверх камеры и рамки */
+  z-index: 10;
   display: flex;
   gap: 10px;
 }
 
-/* Кнопка выхода */
 .exitBtn {
   background: rgba(0, 0, 0, 0.45);
   color: #ffffff;
@@ -214,5 +171,3 @@
 .exitBtn:hover {
   background: rgba(0, 0, 0, 0.65);
 }
-
-
