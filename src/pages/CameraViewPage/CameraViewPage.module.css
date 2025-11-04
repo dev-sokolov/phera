@@ -171,3 +171,39 @@
 .exitBtn:hover {
   background: rgba(0, 0, 0, 0.65);
 }
+
+/* ---------------------------------- */
+
+.cropFrame {
+  position: absolute;
+  border: 2px dashed rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.5);
+  /* затемнение вокруг */
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 5;
+
+  /* Настраивай позицию и размер под свой crop */
+  top: 15%;
+  /* отступ сверху */
+  left: 25%;
+  /* отступ слева */
+  width: 50%;
+  /* ширина рамки */
+  height: 50%;
+  /* высота рамки */
+
+  /* Небольшое свечение для наглядности */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5);
+}
+
+/* пульсирующее свечение */
+/* @keyframes pulse {
+  0% { box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+  50% { box-shadow: 0 0 20px rgba(255,255,255,1); }
+  100% { box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+}
+
+.cropFrame {
+  animation: pulse 2s infinite;
+} */
