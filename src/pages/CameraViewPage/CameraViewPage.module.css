@@ -83,6 +83,7 @@
   background: transparent;
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.2);
   z-index: 3;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .viewfinder::before,
@@ -93,7 +94,7 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 3px solid #fff;
+  border: 3px solid #ffffffb2;
   box-sizing: border-box;
 }
 
@@ -139,7 +140,7 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: #ffffffb2;
 }
 
 .topControls {
@@ -174,4 +175,64 @@
 
 /* ---------------------------------- */
 
+.errorMessage {
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  background-color: white;
+  color: rgba(255, 0, 0, 0.85);
+  padding: 7px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  animation: fadeInOut 2s ease;
+  z-index: 1000;
+}
 
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+
+  10%,
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+}
+
+.viewfinder.detected::before,
+.viewfinder.detected::after,
+.viewfinder.detected .bottom-left,
+.viewfinder.detected .bottom-right {
+  /* border-color: #ffd700;  */
+  /* border-color: #ffd9006e; */
+  border-color: #ffd9009c;
+}
+
+.scanBtn.detected {
+  /* background-color: #ffd9006e; */
+  background-color: #ffd9009c;
+  ;
+}
+
+.viewfinder.detected {
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4);
+/* transition: box-shadow 0.3s ease-in-out; */
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+
+
+/* .viewfinder.detected {
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  transform: scale(0.95);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+} */
