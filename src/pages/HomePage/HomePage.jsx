@@ -9,8 +9,13 @@ const HomePage = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const navigate = useNavigate();
 
-  const handleCapture = (imageSrc) => {
-    navigate("/result", { state: { capturedImage: imageSrc } });
+  // const handleCapture = (imageSrc) => {
+  //   navigate("/result", { state: { capturedImage: imageSrc } });
+  //   setIsCameraOn(false);
+  // };
+
+  const handleCapture = (result) => {
+    navigate("/result", { state: result });
     setIsCameraOn(false);
   };
 

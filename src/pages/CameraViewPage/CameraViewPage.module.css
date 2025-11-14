@@ -7,13 +7,12 @@
   background-color: black;
 }
 
-.darkBackground {
+.overlayBackground {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
   z-index: 1;
 }
 
@@ -32,120 +31,10 @@
   opacity: 1;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3;
-}
-
-.wrapBtn {
-  position: absolute;
-  top: calc(50% + 21vh);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 220px;
-  height: 220px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-
-.btn {
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffffff;
-  border-radius: 12px;
-  background-color: #00303d;
-  padding: 12px 31px;
-  font-family: system-ui, sans-serif;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: #00303de6;
-}
-
-.viewfinder {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  width: 80vw;
-  height: 60vh;
-  transform: translate(-50%, -50%);
-  border-radius: 20px;
-  background: transparent;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.2);
-  z-index: 3;
-  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.viewfinder::before,
-.viewfinder::after,
-.viewfinder .bottom-left,
-.viewfinder .bottom-right {
-  content: "";
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  border: 3px solid #ffffffb2;
-  box-sizing: border-box;
-}
-
-/* Верхний левый угол */
-.viewfinder::before {
-  top: 0;
-  left: 0;
-  border-bottom: none;
-  border-right: none;
-  border-top-left-radius: 15px;
-}
-
-/* Верхний правый угол */
-.viewfinder::after {
-  top: 0;
-  right: 0;
-  border-bottom: none;
-  border-left: none;
-  border-top-right-radius: 15px;
-}
-
-/* Нижний левый угол */
-.viewfinder .bottom-left {
-  bottom: 0;
-  left: 0;
-  border-top: none;
-  border-right: none;
-  border-bottom-left-radius: 15px;
-}
-
-/* Нижний правый угол */
-.viewfinder .bottom-right {
-  bottom: 0;
-  right: 0;
-  border-top: none;
-  border-left: none;
-  border-bottom-right-radius: 15px;
-}
-
-.scanBtn {
-  width: 70px;
-  height: 70px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: #ffffffb2;
-}
-
+/* ------------------ Верхние кнопки ------------------ */
 .topControls {
   position: absolute;
-  top: 20px;
+  top: 25px;
   left: 20px;
   z-index: 10;
   display: flex;
@@ -173,66 +62,174 @@
   background: rgba(0, 0, 0, 0.65);
 }
 
-/* ---------------------------------- */
-
-.errorMessage {
+/* ------------------ Рамка фокуса ------------------ */
+.viewfinder {
   position: absolute;
-  top: 45px;
+  top: 46%;
   left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  background-color: white;
-  color: rgba(255, 0, 0, 0.85);
-  padding: 7px 10px;
-  border-radius: 12px;
-  font-weight: 600;
-  animation: fadeInOut 2s ease;
-  z-index: 1000;
+  width: 80vw;
+  height: 60vh;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  background: transparent;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+  transform-origin: center;
 }
 
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
+.viewfinder::before,
+.viewfinder::after,
+.viewfinder .bottom-left,
+.viewfinder .bottom-right {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #ffffffb2;
+  box-sizing: border-box;
+}
 
-  10%,
-  90% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+.viewfinder::before {
+  top: 0;
+  left: 0;
+  border-bottom: none;
+  border-right: none;
+  border-top-left-radius: 15px;
+}
 
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -20px);
-  }
+.viewfinder::after {
+  top: 0;
+  right: 0;
+  border-bottom: none;
+  border-left: none;
+  border-top-right-radius: 15px;
+}
+
+.viewfinder .bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top: none;
+  border-right: none;
+  border-bottom-left-radius: 15px;
+}
+
+.viewfinder .bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top: none;
+  border-left: none;
+  border-bottom-right-radius: 15px;
 }
 
 .viewfinder.detected::before,
 .viewfinder.detected::after,
 .viewfinder.detected .bottom-left,
 .viewfinder.detected .bottom-right {
-  /* border-color: #ffd700;  */
-  /* border-color: #ffd9006e; */
   border-color: #ffd9009c;
-}
-
-.scanBtn.detected {
-  /* background-color: #ffd9006e; */
-  background-color: #ffd9009c;
-  ;
 }
 
 .viewfinder.detected {
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4);
-/* transition: box-shadow 0.3s ease-in-out; */
-  transform: translate(-50%, -50%) scale(0.95);
+  transform: translate(-50%, -50%) scale(0.97);
 }
 
+/* ------------------ Кнопка сканирования ------------------ */
+.wrapBtn {
+  position: absolute;
+  top: calc(52% + 21vh);
+  left: 50%;
+  transform: translateX(-50%);
+  /* width: 220px; */
+  width: 80vw;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
 
+.scanBtn {
+  /* width: 70px; */
+  width: 100%;
+  /* height: 70px; */
+  border: none;
+  /* border-radius: 50%; */
+  border-radius: 15px;
 
-/* .viewfinder.detected {
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
-  transform: scale(0.95);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-} */
+  cursor: pointer;
+  /* background-color: #ffffffb2; */
+  background-color: #00303D;
+
+  color: #FFFFFF;
+  /* ← ДОБАВЬ ЭТО */
+  font-size: 16px;
+  /* рекомендуется */
+  font-weight: 600;
+  padding: 14px 0;
+  /* можно тоже */
+}
+
+.scanBtn.detected {
+  /* background-color: #ffd9009c; */
+  background-color: #00303D;
+}
+
+/* ------------------ Подсказка ------------------ */
+.hintMessage {
+  position: absolute;
+  /* top: 4%; */
+  top: 25px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* color: white; */
+  /* background-color: rgba(0,0,0,0.5); */
+  background-color: rgba(255, 255, 255, 0.93);
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  /* text-align: center; */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  /* align-items: flex-start; */
+
+  /* max-width: 400px; */
+  /* width: 65vw; */
+  gap: 10px;
+
+  /* ✅ Контентная ширина, но с ограничением */
+  /* width: fit-content;
+  max-width: 80vw; */
+  /* рамка примерно 80% экрана — совпадает с .viewfinder */
+  /* box-sizing: border-box; */
+
+  /* Для аккуратных переносов */
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.hintMessageImg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  /* margin-right: 10px; */
+}
+
+.hintMessageImg img {
+  width: 100%;
+  height: 100%;
+}
+
+.hintMessageTitle {
+  font-size: 14px;
+  color: #1D2530;
+  font-weight: 500;
+}
+
+.hintMessageText {
+  font-size: 14px;
+  color: #627084;
+  margin-top: 4px;
+}

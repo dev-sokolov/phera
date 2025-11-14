@@ -1,17 +1,18 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import Webcam from "react-webcam";
+import { addImage } from "../../shared/api/images-api.js";
 import styles from "./CameraViewPage.module.css";
 import notificationSound from "../../assets/sounds/notification.mp3";
 import processing_6 from "../../assets/lottie/processing_6.json";
+import alertCircle from "../../assets/icons/alertCircle.svg";
 
 const CameraViewPage = ({ onCapture, onExit }) => {
     const webcamRef = useRef(null);
     const [isReady, setIsReady] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const [hasFourMarkers, setHasFourMarkers] = useState(false);
-    // const [didVibrate, setDidVibrate] = useState(false);
+    const [buttonText, setButtonText] = useState("Simulate auto-capture");
 
     const stopCamera = () => {
         const video = webcamRef.current?.video;
@@ -24,191 +25,152 @@ const CameraViewPage = ({ onCapture, onExit }) => {
         audio.play().catch(() => { });
     };
 
-    const handleCapture = () => {
+    //   Захват и отправка полного изображения!!!!!!!!!!!!!!!!!!!!!!!не удалять!!!!!!!!!!!!
+    // const handleCapture = async () => {
+    //     if (!webcamRef.current) return;
+
+    //     setIsProcessing(true);
+    //     playClickSound();
+
+    //     try {
+    //         const screenshot = webcamRef.current.getScreenshot({
+    //             width: 1920,
+    //             height: 1080,
+    //         });
+
+    //         if (!screenshot) {
+    //             throw new Error("Не удалось сделать снимок. Попробуйте ещё раз.");
+    //         }
+
+    //         const blob = await fetch(screenshot).then((r) => r.blob());
+    //         const formData = new FormData();
+    //         formData.append("image", blob, "capture.png");
+
+    //         // Отправляем на backend
+    //         const response = await fetch("https://your-backend-api.com/upload", {
+    //             method: "POST",
+    //             body: formData,
+    //         });
+
+    //         if (!response.ok) throw new Error("Ошибка при загрузке изображения");
+
+    //         const result = await response.json();
+    //         stopCamera();
+    //         if (onUploadSuccess) onUploadSuccess(result);
+    //     } catch (error) {
+    //         console.error(error);
+    //         setErrorMessage(error.message || "Ошибка при захвате изображения");
+    //         setTimeout(() => setErrorMessage(""), 3000);
+    //     } finally {
+    //         setIsProcessing(false);
+    //     }
+    // };
+
+    // 🚀 Временно заменяем upload-запрос на mock!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    // const handleCapture = async () => {
+    //     if (!webcamRef.current || !hasFourMarkers || isProcessing) return;
+
+    //     setIsProcessing(true);
+    //     playClickSound();
+
+    //     try {
+    //         const screenshot = webcamRef.current.getScreenshot({
+    //             width: 1920,
+    //             height: 1080,
+    //         });
+
+    //         if (!screenshot) throw new Error("Failed to capture image.");
+
+    //         await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    //         const fakeResult = {
+    //             phValue: 4.3,
+    //             date: new Date().toLocaleString(),
+    //             confidence: "98%",
+    //             image: screenshot,
+    //         };
+
+    //         stopCamera();
+    //         if (onCapture) onCapture(fakeResult);
+    //     } catch (error) {
+    //         console.error(error);
+    //     } finally {
+    //         setIsProcessing(false);
+    //     }
+    // };
+
+    const handleCapture = async () => {
+        if (!webcamRef.current || !hasFourMarkers || isProcessing) return;
+
         setIsProcessing(true);
-        setTimeout(() => playClickSound(), 1000);
+        setButtonText("Capturing...");
+        // playClickSound();
 
-        setTimeout(() => {
-            const video = webcamRef.current?.video;
-            if (!video) return;
+        try {
+            // await new Promise(resolve => setTimeout(resolve, 1700));
+            const screenshot = webcamRef.current.getScreenshot({
+                width: 1920,
+                height: 1080,
+            });
 
-            // 1️⃣ Снимаем кадр с камеры
-            const canvas = document.createElement("canvas");
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            if (!screenshot) throw new Error("Failed to capture image");
 
-            // 2️⃣ Обрабатываем OpenCV
-            const src = cv.matFromImageData(imgData);
-            const gray = new cv.Mat();
-            const thresh = new cv.Mat();
+            // конвертируем screenshot (dataURL) → blob
+            const blob = await fetch(screenshot).then(r => r.blob());
 
-            cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
-            cv.GaussianBlur(gray, gray, new cv.Size(5, 5), 0);
-            cv.adaptiveThreshold(
-                gray,
-                thresh,
-                255,
-                cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-                cv.THRESH_BINARY_INV,
-                15,
-                4
-            );
+            const formData = new FormData();
+            formData.append("image", blob, "capture.png");
 
-            // 3️⃣ Контуры
-            const contours = new cv.MatVector();
-            const hierarchy = new cv.Mat();
-            cv.findContours(thresh, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+            // 📤 отправляем на backend
+            const result = await addImage(formData);
 
-            const squares = [];
-            for (let i = 0; i < contours.size(); i++) {
-                const cnt = contours.get(i);
-                const approx = new cv.Mat();
-                cv.approxPolyDP(cnt, approx, 0.02 * cv.arcLength(cnt, true), true);
+            // ✓ в result будет то, что вернул backend
+            stopCamera();
+            onCapture(result);
 
-                if (approx.rows === 4 && cv.contourArea(approx) > 1000) {
-                    const rect = cv.boundingRect(approx);
-                    const aspect = rect.width / rect.height;
-
-                    if (aspect > 0.6 && aspect < 1.4) {
-                        squares.push({
-                            rect,
-                            area: cv.contourArea(approx),
-                            center: {
-                                x: rect.x + rect.width / 2,
-                                y: rect.y + rect.height / 2,
-                            },
-                        });
-                    }
-                }
-
-                cnt.delete();
-                approx.delete();
-            }
-
-            // 4️⃣ Проверяем, что нашли 4 маркера
-            if (squares.length >= 4) {
-                // Берем 4 самых крупных
-                squares.sort((a, b) => b.area - a.area);
-                const selected = squares.slice(0, 4);
-
-                // Сортируем по координатам
-                selected.sort((a, b) => a.center.y - b.center.y);
-                const top = selected.slice(0, 2).sort((a, b) => a.center.x - b.center.x);
-                const bottom = selected.slice(2, 4).sort((a, b) => a.center.x - b.center.x);
-
-                const topLeft = top[0];
-                const topRight = top[1];
-                const bottomLeft = bottom[0];
-                const bottomRight = bottom[1];
-
-                // Проверка геометрии
-                const widthTop = Math.hypot(topRight.center.x - topLeft.center.x, topRight.center.y - topLeft.center.y);
-                const widthBottom = Math.hypot(bottomRight.center.x - bottomLeft.center.x, bottomRight.center.y - bottomLeft.center.y);
-                const heightLeft = Math.hypot(bottomLeft.center.x - topLeft.center.x, bottomLeft.center.y - topLeft.center.y);
-                const heightRight = Math.hypot(bottomRight.center.x - topRight.center.x, bottomRight.center.y - topRight.center.y);
-
-                const width = Math.round((widthTop + widthBottom) / 2);
-                const height = Math.round((heightLeft + heightRight) / 2);
-
-                // Если маркеры явно не формируют прямоугольник
-                if (width < 50 || height < 50 || width / height > 3 || height / width > 3) {
-                    console.warn("⚠️ Геометрия неверна — маркеры расположены неправильно.");
-                    // alert("Не удалось корректно определить область. Попробуйте ещё раз.");
-
-                    setIsProcessing(false);
-                    return;
-                }
-
-                // 5️⃣ Матрица преобразования
-                const srcPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-                    topLeft.center.x, topLeft.center.y,
-                    topRight.center.x, topRight.center.y,
-                    bottomRight.center.x, bottomRight.center.y,
-                    bottomLeft.center.x, bottomLeft.center.y
-                ]);
-
-                const dstPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-                    0, 0,
-                    width, 0,
-                    width, height,
-                    0, height
-                ]);
-
-                const M = cv.getPerspectiveTransform(srcPts, dstPts);
-                const warped = new cv.Mat();
-                cv.warpPerspective(src, warped, M, new cv.Size(width, height));
-
-                // ✂️ Обрезаем
-                const cropX = Math.round(width * 0.21);
-                const cropY = Math.round(height * 0.09);
-                const cropWidth = Math.round(width * 0.6);
-                const cropHeight = Math.round(height * 0.62);
-
-                const cropped = warped.roi(new cv.Rect(cropX, cropY, cropWidth, cropHeight));
-                const outputCanvas = document.createElement("canvas");
-                outputCanvas.width = cropWidth;
-                outputCanvas.height = cropHeight;
-                cv.imshow(outputCanvas, cropped);
-                const croppedImage = outputCanvas.toDataURL("image/png");
-
-                stopCamera();
-                onCapture(croppedImage);
-
-                cropped.delete();
-                warped.delete();
-                M.delete();
-                srcPts.delete();
-                dstPts.delete();
-            } else {
-                console.warn("⚠️ Не удалось найти 4 маркера.");
-                setErrorMessage("Scan failed. Try again."); // 👈 Добавляем сообщение
-                setTimeout(() => setErrorMessage(""), 2000);
-                setIsProcessing(false);
-                return;
-            }
-
-            // 🧹 Очистка
-            src.delete();
-            gray.delete();
-            thresh.delete();
-            contours.delete();
-            hierarchy.delete();
-
+        } catch (error) {
+            console.error("Upload failed:", error);
+        } finally {
             setIsProcessing(false);
-        }, 2300);
+        }
     };
 
-    const handleUserMedia = () => {
-        // camera ready
-        setTimeout(() => setIsReady(true), 150);
-    };
-
-    useEffect(() => {
-        return () => stopCamera();
-    }, []);
+    const handleUserMedia = () => setTimeout(() => setIsReady(true), 200);
 
     useEffect(() => {
         if (!isReady) return;
 
-        const interval = setInterval(() => {
-            const video = webcamRef.current?.video;
-            if (!video) return;
+        const video = webcamRef.current?.video;
+        if (!video) return;
 
-            const canvas = document.createElement("canvas");
+        const checkReady = setInterval(() => {
+            if (video.videoWidth > 0 && video.videoHeight > 0) {
+                clearInterval(checkReady);
+                startDetection(video);
+            }
+        }, 300);
+
+        return () => clearInterval(checkReady);
+    }, [isReady]);
+
+    function startDetection(video) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4);
+        const gray = new cv.Mat();
+        const thresh = new cv.Mat();
+        const contours = new cv.MatVector();
+        const hierarchy = new cv.Mat();
+
+        const interval = setInterval(() => {
+            if (!video || video.videoWidth === 0) return;
+
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            const ctx = canvas.getContext("2d");
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-            const src = cv.matFromImageData(imgData);
-            const gray = new cv.Mat();
-            const thresh = new cv.Mat();
-            const contours = new cv.MatVector();
-            const hierarchy = new cv.Mat();
+            src.data.set(imgData.data);
 
             try {
                 cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
@@ -222,6 +184,7 @@ const CameraViewPage = ({ onCapture, onExit }) => {
                     15,
                     4
                 );
+
                 cv.findContours(thresh, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
                 const squares = [];
@@ -236,51 +199,48 @@ const CameraViewPage = ({ onCapture, onExit }) => {
                         if (aspect > 0.6 && aspect < 1.4) squares.push(rect);
                     }
 
-                    cnt.delete();
                     approx.delete();
                 }
 
-                // обновляем состояние
                 setHasFourMarkers(squares.length >= 4);
             } catch (e) {
-                console.warn(e);
-            } finally {
-                src.delete();
-                gray.delete();
-                thresh.delete();
-                contours.delete();
-                hierarchy.delete();
+                console.warn("OpenCV detection error:", e);
             }
-        }, 500);
+        }, 700);
 
-        return () => clearInterval(interval);
-    }, [isReady]);
+        return () => {
+            clearInterval(interval);
+            src.delete();
+            gray.delete();
+            thresh.delete();
+            contours.delete();
+            hierarchy.delete();
+        };
+    }
 
-    // useEffect(() => {
-    //     if (hasFourMarkers && navigator.vibrate) {
-    //         // короткая вибрация при обнаружении
-    //         navigator.vibrate(120);
-    //     }
-    // }, [hasFourMarkers]);
+    useEffect(() => {
+        return () => stopCamera();
+    }, []);
 
-    // ----------------------------------------------------------
+    useEffect(() => {
+        if (hasFourMarkers && navigator.vibrate) navigator.vibrate(100);
+    }, [hasFourMarkers]);
 
     return (
         <div className={styles.cameraContainer}>
-            {!isReady && <div className={styles.darkBackground}></div>}
+            <div className={`${styles.overlayBackground} ${hasFourMarkers ? styles.focused : ""}`}></div>
+
             <Webcam
                 ref={webcamRef}
                 audio={false}
                 screenshotFormat="image/png"
-                videoConstraints={{
-                    facingMode: "environment",
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
-                }}
+                videoConstraints={{ facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } }}
                 className={`${styles.webcamVideo} ${isReady ? styles.show : ""}`}
                 onUserMedia={handleUserMedia}
                 playsInline
             />
+
+            {/* Верхние кнопки */}
             <div className={styles.topControls}>
                 <button
                     className={styles.exitBtn}
@@ -294,29 +254,46 @@ const CameraViewPage = ({ onCapture, onExit }) => {
                 </button>
             </div>
 
-            <div className={styles.overlay}>
-                {/* <div className={styles.viewfinder}> */}
-                <div className={`${styles.viewfinder} ${hasFourMarkers ? styles.detected : ""}`}>
-                    <div className={styles["bottom-left"]}></div>
-                    <div className={styles["bottom-right"]}></div>
-                </div>
+            {/* Рамка фокуса */}
+            <div className={`${styles.viewfinder} ${hasFourMarkers ? styles.detected : ""}`}>
+                <div className={styles["bottom-left"]}></div>
+                <div className={styles["bottom-right"]}></div>
             </div>
 
-            {errorMessage && (
-                <div className={styles.errorMessage}>
-                    {errorMessage}
+            {/* Подсказка */}
+            {/* {!hasFourMarkers && !isProcessing && (
+                <div className={styles.hintMessage}>
+                    <div className={styles.hintMessageImg}><img src={alertCircle} alt="AlertCircle" /></div>
+                    <div>
+                        <p className={styles.hintMessageTitle}>Align the test card in the frame</p>
+                        <p className={styles.hintMessageText}>Avoid colored light, fill the frame, hold steady. We will capture automatically.</p>
+                    </div>
+                    
                 </div>
-            )}
+            )} */}
 
+            <div className={styles.hintMessage}>
+                <div className={styles.hintMessageImg}><img src={alertCircle} alt="AlertCircle" /></div>
+                <div>
+                    <p className={styles.hintMessageTitle}>Align the test card in the frame</p>
+                    {/* <p className={styles.hintMessageText}>Avoid colored light, fill the frame, hold steady. We will capture automatically.</p> */}
+                </div>
+
+            </div>
+
+            {/* Кнопка сканирования */}
             <div className={styles.wrapBtn}>
                 <button
-                    // className={styles.scanBtn}
                     className={`${styles.scanBtn} ${hasFourMarkers ? styles.detected : ""}`}
                     onClick={handleCapture}
-                    style={{ opacity: isProcessing ? 0 : 1 }}
-                ></button>
+                    disabled={!hasFourMarkers || isProcessing}
+                    style={{
+                        opacity: hasFourMarkers ? 1 : 0.5,
+                        cursor: (!hasFourMarkers || isProcessing) ? 'not-allowed' : 'pointer'
+                    }}
+                >{buttonText}</button>
 
-                <Lottie
+                {/* <Lottie
                     key={isProcessing ? "processing" : "idle"}
                     animationData={processing_6}
                     loop={false}
@@ -331,7 +308,7 @@ const CameraViewPage = ({ onCapture, onExit }) => {
                         pointerEvents: "none",
                         filter: "brightness(0) invert(1)",
                     }}
-                />
+                /> */}
             </div>
         </div>
     );
