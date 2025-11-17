@@ -12,7 +12,7 @@ const Main = ({ handleStartCamera }) => {
                     <h1 className={styles.title}>Vaginal Health, <span>Simplified</span></h1>
                     <p className={styles.subtitle}>Quick, private pH testing right from your phone. No lab visits, no waiting.</p>
                     <div className={styles.wrapBtn}>
-                        <button className={styles.btn} onClick={handleStartCamera}>Tty Demo</button>
+                        <button className={styles.btn} onClick={handleStartCamera}>Try Demo</button>
                         <button className={styles.btnTransparent}>Learn More</button>
                     </div>
                 </div>
