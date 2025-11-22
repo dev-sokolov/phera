@@ -12,9 +12,7 @@
   "dependencies": {
     "@types/css-modules": "^1.0.5",
     "axios": "^1.13.2",
-    "framer-motion": "^12.23.24",
     "jszip": "^3.10.1",
-    "lottie-react": "^2.4.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.65.0",
