@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Main from "../../components/Main/Main";
 import CameraViewPage from "../CameraViewPage/CameraViewPage";
 
@@ -7,12 +6,6 @@ import styles from "./HomePage.module.css";
 
 const HomePage = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
-  const navigate = useNavigate();
-
-  const handleCapture = (result) => {
-    navigate("/result", { state: result });
-    setIsCameraOn(false);
-  };
 
   return (
     <>
@@ -24,7 +17,7 @@ const HomePage = () => {
           </footer>
         </div>
       ) : (
-        <CameraViewPage onCapture={handleCapture} onExit={() => setIsCameraOn(false)} />
+        <CameraViewPage onExit={() => setIsCameraOn(false)} />
       )}
     </>
   );
