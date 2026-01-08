@@ -1,5 +1,5 @@
 export const checkBlur = (canvas) => {
-    const ctx = canvas.getContext('2d', { willReadFrequently: true }); 
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
     
@@ -12,6 +12,7 @@ export const checkBlur = (canvas) => {
     const width = canvas.width;
     const height = canvas.height;
     
+    // Проверяем только центральную область для ускорения
     const startY = Math.floor(height * 0.25);
     const endY = Math.floor(height * 0.75);
     const startX = Math.floor(width * 0.25);
@@ -39,8 +40,9 @@ export const checkBlur = (canvas) => {
     };
 };
 
+// 2. Затем объявляем checkExposure
 export const checkExposure = (canvas) => {
-    const ctx = canvas.getContext('2d', { willReadFrequently: true }); 
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
     
@@ -48,7 +50,8 @@ export const checkExposure = (canvas) => {
     let underexposedPixels = 0;
     const totalPixels = canvas.width * canvas.height;
     
-    for (let i = 0; i < data.length; i += 16) { 
+    // Проверяем каждый 4-й пиксель для ускорения
+    for (let i = 0; i < data.length; i += 16) {
         const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
         
         if (brightness > 240) overexposedPixels++;
@@ -68,20 +71,28 @@ export const checkExposure = (canvas) => {
     };
 };
 
+// 3. И только в конце checkImageQuality (которая использует две предыдущие)
 export const checkImageQuality = (canvas) => {
     const blurCheck = checkBlur(canvas);
     const exposureCheck = checkExposure(canvas);
     
+    // Смягчаем критерии для мобильных устройств
     const isGoodQuality = 
         !blurCheck.isBlurry && 
         !exposureCheck.hasGlare && 
         !exposureCheck.tooDark;
     
+    // Более мягкие пороги
+    const isAcceptable = 
+        blurCheck.variance > 50 && // Было 100
+        exposureCheck.overexposedPercent < 20 && // Было 10
+        exposureCheck.underexposedPercent < 40; // Было 30
+    
     return {
-        isGoodQuality,
+        isGoodQuality: isGoodQuality || isAcceptable,
         blur: blurCheck,
         exposure: exposureCheck,
-        overallQuality: isGoodQuality ? 'excellent' : 'poor',
+        overallQuality: isGoodQuality ? 'excellent' : isAcceptable ? 'acceptable' : 'poor',
         issues: [
             blurCheck.isBlurry && 'Image is blurry',
             exposureCheck.hasGlare && 'Too much glare detected',

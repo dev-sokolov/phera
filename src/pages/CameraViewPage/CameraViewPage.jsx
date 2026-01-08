@@ -55,37 +55,55 @@ const CameraViewPage = ({ onExit }) => {
         try {
             const video = webcamRef.current.video;
             
+            // Создаём уменьшенный canvas для быстрой проверки качества
             const checkCanvas = document.createElement('canvas');
-            const scale = 0.25; 
+            const scale = 0.25;
             checkCanvas.width = Math.floor(video.videoWidth * scale);
             checkCanvas.height = Math.floor(video.videoHeight * scale);
             const checkCtx = checkCanvas.getContext('2d', { willReadFrequently: true });
             checkCtx.drawImage(video, 0, 0, checkCanvas.width, checkCanvas.height);
 
+            // Проверяем качество на уменьшенном изображении
             const qualityCheck = checkImageQuality(checkCanvas);
             
+            console.log('📸 Quality check:', qualityCheck); // ← Логирование
+            
+            // Смягчаем критерии: предупреждаем, но не блокируем
             if (!qualityCheck.isGoodQuality) {
-                const issuesText = qualityCheck.issues.join(', ');
-                alert(`Image quality is poor: ${issuesText}\nPlease try again with better lighting and focus.`);
-                setIsProcessing(false);
-                return;
+                console.warn('⚠️ Poor quality detected:', qualityCheck.issues);
+                // Не блокируем отправку, только предупреждаем
             }
 
+            // Делаем скриншот в полном разрешении
             const screenshot = webcamRef.current.getScreenshot({ width: 1920, height: 1080 });
-            if (!screenshot) throw new Error("Screenshot failed");
+            if (!screenshot) {
+                console.error('❌ Screenshot failed');
+                throw new Error("Screenshot failed");
+            }
+
+            console.log('✅ Screenshot created');
 
             const blob = await fetch(screenshot).then(r => r.blob());
+            console.log('✅ Blob created, size:', blob.size);
+
             const formData = new FormData();
             formData.append("image", blob, "capture.png");
 
+            console.log('📤 Sending to backend...');
             const res = await addImage(formData);
-            if (!res || res.error) throw new Error("Backend error");
+            console.log('✅ Backend response:', res);
 
+            if (!res || res.error) {
+                console.error('❌ Backend error:', res);
+                throw new Error("Backend error");
+            }
+
+            // Переходим на страницу результата
             navigate("/result", { state: res });
             
         } catch (err) {
-            console.error(err);
-            alert("Failed to process image. Try again.");
+            console.error('❌ Capture error:', err);
+            alert(`Failed to process image: ${err.message}\nPlease try again.`);
         } finally {
             setIsProcessing(false);
         }
